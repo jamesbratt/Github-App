@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Table: React.FC = () => {
-  return (
-    <div></div>
-  );
+interface ITableProps  {
+  headers: Array<any>;
+  items: Array<any>;
 }
+
+const Table = ({ headers, items }: ITableProps) => <table></table>;
 
 export default Table;

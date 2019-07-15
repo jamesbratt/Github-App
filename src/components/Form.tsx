@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Form: React.FC = () => {
-  return (
-    <div></div>
-  );
+interface IFormProps  {
+  update: Function;
 }
+
+const Form = ({ update }: IFormProps) => <div></div>;
 
 export default Form;
