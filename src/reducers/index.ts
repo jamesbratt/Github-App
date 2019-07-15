@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import repositories from './repositories';
-import organisations from './organisations';
+import resources from './resources';
 
 const rootReducer = combineReducers({
-  repositories,
-  organisations,
+  resources,
 });
 
 export default rootReducer;
