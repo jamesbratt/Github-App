@@ -29,6 +29,7 @@ class App extends React.Component<any, any> {
         </header>
         <div className="container">
           <hr/>
+          <p>Search for your Github repositories and organisations</p>
           <Form update={this.fetchGithubData} />
           {
             !this.props.resources.error ?

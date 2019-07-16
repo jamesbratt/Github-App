@@ -33,7 +33,7 @@ const FormComponent = ({ update }: IFormProps) => {
           </Form.Group>
         </Col>
         <Col>
-          <Button onClick={() => submit()} variant="primary">Update</Button>
+          <Button onClick={() => submit()} variant="primary">Search</Button>
         </Col>
       </Form.Row>
     </Form>
