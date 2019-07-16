@@ -16,7 +16,7 @@ const FormComponent = ({ update }: IFormProps) => {
     const selectedUsername = usernameRef.current.value;
     const selectedResource = resourceRef.current.value;
     update(selectedUsername, selectedResource);
-  }
+  };
 
   return (
     <Form>

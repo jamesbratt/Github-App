@@ -7,6 +7,6 @@ const Loader: React.FC = () => {
     <span className="sr-only">Loading...</span>
   </Spinner>
   );
-}
+};
 
 export default Loader;

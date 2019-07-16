@@ -6,41 +6,39 @@ import AlertComponent from './components/AlertComponent';
 import Form from './components/Form';
 import Navbar from 'react-bootstrap/Navbar';
 
-class App extends React.Component<any, any> {
+const App: React.FC = ({...props}:any) => { // TODO - write interface
 
-  fetchGithubData = (username: string, resource: string) => {
-    this.props.dispatch(fetchData(username, resource));
-  }
+  const { headers, data, isLoading, error } = props.resources;
+  const tableProps = {
+    headers,
+    data,
+    isLoading,
+  };
 
-  render() {
-    const { headers, data, isLoading } = this.props.resources;
-    const tableProps = {
-      headers,
-      data,
-      isLoading,
-    };
+  const fetchGithubData = (username: string, resource: string) => {
+    props.dispatch(fetchData(username, resource));
+  };
 
-    return (
-      <React.Fragment>
-        <header>
-          <Navbar bg="dark" variant="dark">
-            <Navbar.Brand>Github App</Navbar.Brand>
-          </Navbar>
-        </header>
-        <div className="container">
-          <hr/>
-          <p>Search for your Github repositories and organisations</p>
-          <Form update={this.fetchGithubData} />
-          {
-            !this.props.resources.error ?
-              <TableComponent {...tableProps} /> :
-              <AlertComponent message={this.props.resources.error} />
-          }
-        </div>
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <header>
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand>Github App</Navbar.Brand>
+        </Navbar>
+      </header>
+      <div className="container">
+        <hr/>
+        <p>Search for your Github repositories and organisations</p>
+        <Form update={fetchGithubData} />
+        {
+          !error ?
+            <TableComponent {...tableProps} /> :
+            <AlertComponent message={error} />
+        }
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default connect(
   state => {
