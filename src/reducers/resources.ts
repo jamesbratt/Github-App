@@ -1,17 +1,17 @@
 interface Resource {
   headers: Array<any>;
   data: Array<any>;
-  resourceName: string;
   error: string;
+  isLoading: boolean;
 }
 
-const resources = (state: Resource = { headers: [], data: [], resourceName: '', error: '' }, action: any) => {
-  const { headers, data, resourceName, error } = action;
+const resources = (state: Resource = { headers: [], data: [], error: '', isLoading: false }, action: any) => {
+  const { headers, data, error, isLoading } = action;
   switch(action.type) {
     case 'RECEIVE_REPOS':
-      return { headers, data, resourceName, error };
+      return { headers, data, error, isLoading };
     case 'RECEIVE_ORGS':
-      return { headers, data, resourceName, error };
+      return { headers, data, error, isLoading };
     default:
       return state;
   }

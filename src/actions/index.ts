@@ -2,80 +2,80 @@ import axios from "axios";
 
 const BASE_URL = "https://api.github.com";
 
-interface Repos {
+interface Resource {
   data?: any;
+  isLoading: boolean,
   error?: string;
 }
 
-interface Orgs {
-  data?: any;
-  error?: string;
-}
-
-enum Resource {
+enum ResourceTypes {
   Repos = 'repos',
   Orgs = 'orgs',
 }
 
-const receiveRepos = ({data, error}: Repos) => {
+const receiveRepos = ({data, isLoading, error}: Resource) => {
   return {
     type: 'RECEIVE_REPOS',
-    headers: ['name', 'forks', 'watchers'],
-    resourceName: 'Repos',
+    headers: ['name', 'forks', 'watchers', 'language'],
     data,
+    isLoading,
     error,
   }
 };
 
-const receiveOrgs = ({data, error}: Orgs) => {
+const receiveOrgs = ({data, isLoading, error}: Resource) => {
   return {
     type: 'RECEIVE_ORGS',
     headers: ['id', 'login', 'url'],
-    resourceName: 'Orgs',
     data,
+    isLoading,
     error,
   }
 };
 
-export const fetchRepos = (username: string) => {
+const fetchRepos = (username: string) => {
   return (dispatch: any) => {
+    dispatch(
+      receiveRepos({data: [], isLoading: true})
+    )
     const url = `${BASE_URL}/users/${username}/repos?per_page=250`;
     return axios.get(url)
     .then(response => dispatch(
-      receiveRepos({data: response.data})
+      receiveRepos({data: response.data, isLoading: false})
     ))
     .catch((error) => {
       dispatch(
-        receiveRepos({data: [], error: error.response.data.message})
+        receiveRepos({data: [], isLoading: false, error: error.response.data.message})
       )
     });
-
-      // .catch((error: any) => dispatch(
-      //   receiveRepos({data: null, error})
-      // ));
   }
 };
 
-export const fetchOrgs = (username: string) => {
+const fetchOrgs = (username: string) => {
   return (dispatch: any) => {
+    dispatch(
+      receiveRepos({data: [], isLoading: true})
+    )
     const url = `${BASE_URL}/users/${username}/orgs`;
     return axios.get(url)
       .then(response => dispatch(
-        receiveOrgs({data: response.data})
+        receiveOrgs({data: response.data, isLoading: false})
       ))
-      .catch((error: any) => dispatch(
-        receiveOrgs({data: [], error})
-      ));
+      .catch((error) => {
+        dispatch(
+          receiveOrgs({data: [], isLoading: false, error: error.response.data.message})
+        )
+      });
   }
 };
 
 export const fetchData = (username: string, resource: string) => {
   switch(resource) {
-    case Resource.Repos:
+    case ResourceTypes.Repos:
       return fetchRepos(username);
-    case Resource.Orgs:
+    case ResourceTypes.Orgs:
       return fetchOrgs(username);
     default:
-      break;
+      return fetchRepos(username);
   }
 }

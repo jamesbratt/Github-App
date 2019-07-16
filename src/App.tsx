@@ -4,7 +4,7 @@ import { fetchData } from './actions';
 import TableComponent from './components/TableComponent';
 import AlertComponent from './components/AlertComponent';
 import Form from './components/Form';
-import Loader from './components/Loader';
+import Navbar from 'react-bootstrap/Navbar';
 
 class App extends React.Component<any, any> {
 
@@ -12,26 +12,31 @@ class App extends React.Component<any, any> {
     this.props.dispatch(fetchData(username, resource));
   }
 
-  componentDidMount() {
-    this.fetchGithubData('jonjockay', 'repos');
-  }
-
   render() {
+    const { headers, data, isLoading } = this.props.resources;
     const tableProps = {
-      headers: this.props.resources.headers,
-      data: this.props.resources.data,
+      headers,
+      data,
+      isLoading,
     };
 
     return (
-      <div className="App">
-        {
-          !this.props.resources.error ?
-            <TableComponent {...tableProps} /> :
-            <AlertComponent message={this.props.resources.error} />
-        }
-        <Form update={() => {}} />
-        <Loader />
-      </div>
+      <React.Fragment>
+        <header>
+          <Navbar bg="dark" variant="dark">
+            <Navbar.Brand>Github App</Navbar.Brand>
+          </Navbar>
+        </header>
+        <div className="container">
+          <hr/>
+          <Form update={this.fetchGithubData} />
+          {
+            !this.props.resources.error ?
+              <TableComponent {...tableProps} /> :
+              <AlertComponent message={this.props.resources.error} />
+          }
+        </div>
+      </React.Fragment>
     );
   }
 }
