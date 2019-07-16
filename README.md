@@ -2,7 +2,10 @@
 
 > A simple web app written in TypeScript for searching through Github repositories and organisations.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Getting started
+
+Clone this repository, make sure you have Node installed and then run `npm install`:
 
 ## Available Scripts
 

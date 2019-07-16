@@ -14,7 +14,7 @@ const resources = (state: Resource = { headers: [], data: [], error: '', isLoadi
       return { headers, data, error, isLoading };
     default:
       return state;
-  }
+  };
 };
 
 export default resources;

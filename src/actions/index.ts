@@ -37,36 +37,32 @@ const fetchRepos = (username: string) => {
   return (dispatch: any) => {
     dispatch(
       receiveRepos({data: [], isLoading: true})
-    )
+    );
     const url = `${BASE_URL}/users/${username}/repos?per_page=250`;
     return axios.get(url)
     .then(response => dispatch(
       receiveRepos({data: response.data, isLoading: false})
     ))
-    .catch((error) => {
-      dispatch(
-        receiveRepos({data: [], isLoading: false, error: error.response.data.message})
-      )
-    });
-  }
+    .catch((error) => dispatch(
+      receiveRepos({data: [], isLoading: false, error: error.response.data.message})
+    ));
+  };
 };
 
 const fetchOrgs = (username: string) => {
   return (dispatch: any) => {
     dispatch(
       receiveRepos({data: [], isLoading: true})
-    )
+    );
     const url = `${BASE_URL}/users/${username}/orgs`;
     return axios.get(url)
       .then(response => dispatch(
         receiveOrgs({data: response.data, isLoading: false})
       ))
-      .catch((error) => {
-        dispatch(
-          receiveOrgs({data: [], isLoading: false, error: error.response.data.message})
-        )
-      });
-  }
+      .catch((error) => dispatch(
+        receiveOrgs({data: [], isLoading: false, error: error.response.data.message})
+      ));
+  };
 };
 
 export const fetchData = (username: string, resource: string) => {
@@ -77,5 +73,5 @@ export const fetchData = (username: string, resource: string) => {
       return fetchOrgs(username);
     default:
       return fetchRepos(username);
-  }
-}
+  };
+};

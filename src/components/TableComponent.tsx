@@ -16,13 +16,13 @@ const TableComponent = ({ headers, data, isLoading }: ITableProps) => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            {headers.map(header => <th>{header}</th>)}
+            {headers.map(header => <th key={header}>{header}</th>)}
           </tr>
         </thead>
         <tbody>
           {data.map(
-            item => <tr>
-              {headers.map(header => <td>{item[header]}</td>)}
+            item => <tr key={item.id}>
+              {headers.map(header => <td key={`${item.id}-${header}`}>{item[header]}</td>)}
             </tr>
           )}
         </tbody>
