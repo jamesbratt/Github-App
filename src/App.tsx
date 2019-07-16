@@ -1,26 +1,49 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import { fetchData } from './actions';
+import TableComponent from './components/TableComponent';
+import AlertComponent from './components/AlertComponent';
+import Form from './components/Form';
+import Navbar from 'react-bootstrap/Navbar';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component<any, any> {
+
+  fetchGithubData = (username: string, resource: string) => {
+    this.props.dispatch(fetchData(username, resource));
+  }
+
+  render() {
+    const { headers, data, isLoading } = this.props.resources;
+    const tableProps = {
+      headers,
+      data,
+      isLoading,
+    };
+
+    return (
+      <React.Fragment>
+        <header>
+          <Navbar bg="dark" variant="dark">
+            <Navbar.Brand>Github App</Navbar.Brand>
+          </Navbar>
+        </header>
+        <div className="container">
+          <hr/>
+          <p>Search for your Github repositories and organisations</p>
+          <Form update={this.fetchGithubData} />
+          {
+            !this.props.resources.error ?
+              <TableComponent {...tableProps} /> :
+              <AlertComponent message={this.props.resources.error} />
+          }
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
-export default App;
+export default connect(
+  state => {
+    return state
+  },
+)(App);
