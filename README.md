@@ -21,7 +21,7 @@ You will also see any lint errors in the console.
 
 ### `npm test`
 
-TODO.
+Runs Jest/Enzyme tests.
 
 ### `npm run build`
 
